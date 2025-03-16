@@ -2,6 +2,7 @@ package net.sinch.springboot.controller;
 
 import net.sinch.springboot.bean.Student;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,13 +11,20 @@ import java.util.List;
 @RestController
 public class StudentController {
 
-//  Spring Boot REST API returns - Java Bean
+//  1. Spring Boot REST API returns - Java Bean
+//  2. Using Spring ResponseEntity to Manipulate the HTTP Response
 //  http://localhost:8080/student
     @GetMapping("/student")
-    public Student getStudent() {
-//      Student student = new Student(1, "Sinchana", "P Gudagi");
-//      return student;
-        return new Student(1, "Sinchana", "P Gudagi");
+    public ResponseEntity<Student> getStudent() {
+      Student student = new Student(1, "Sinchana", "P Gudagi");
+//      Using - ResponseEntity
+//      return new ResponseEntity<>(student, HttpStatus.OK)
+
+//        Using - ok method
+//      return ResponseEntity.ok(student);
+
+//        Using - ok method with header
+        return ResponseEntity.ok().header("custom-header", "sinchana").body(student);
     }
 
 //    Spring Boot REST API That Returns - List

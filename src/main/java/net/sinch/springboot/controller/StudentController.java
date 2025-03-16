@@ -10,12 +10,12 @@ import java.util.List;
 @RestController
 public class StudentController {
 
-//    Spring Boot REST API returns - Java Bean
-//    http://localhost:8080/student
+//  Spring Boot REST API returns - Java Bean
+//  http://localhost:8080/student
     @GetMapping("/student")
     public Student getStudent() {
-//        Student student = new Student(1, "Sinchana", "P Gudagi");
-//        return student;
+//      Student student = new Student(1, "Sinchana", "P Gudagi");
+//      return student;
         return new Student(1, "Sinchana", "P Gudagi");
     }
 
@@ -61,6 +61,14 @@ public class StudentController {
     @ResponseStatus(HttpStatus.CREATED)
     public Student createStudent(@RequestBody Student student) {
         System.out.println(student.getId());
+        System.out.println(student.getFirstName());
+        System.out.println(student.getLastName());
+        return student;
+    }
+
+//     Spring Boot PUT REST API - @PutMapping and @RequestBody
+    @PutMapping("/student/{id}/update")
+    public Student updateStudent(@PathVariable int id ,@RequestBody Student student) {
         System.out.println(student.getFirstName());
         System.out.println(student.getLastName());
         return student;

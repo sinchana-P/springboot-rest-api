@@ -30,13 +30,13 @@ public class StudentController {
 //    Spring Boot REST API That Returns - List
 //    http://localhost:8080/students
     @GetMapping("/students")
-    public List<Student> getStudents() {
+    public ResponseEntity<List<Student>> getStudents() {
         List<Student> students = new ArrayList<>();
         students.add(new Student(1, "Lily", "Daisy"));
         students.add(new Student(2, "Rose", "Jack"));
         students.add(new Student(3, "Marie", "Peter"));
         students.add(new Student(4, "Jasmine", "Jaz"));
-        return students;
+        return ResponseEntity.ok(students);
     }
 
 //    Spring Boot REST API with Path Variable - @PathVariable
@@ -46,46 +46,49 @@ public class StudentController {
 //    public Student studentPathVariable(@PathVariable int id) {
 //        return new Student(id, "new-user-firstName", "new-user-lastName");
 //    }
-    public Student studentPathVariable(@PathVariable("id") int studentId, @PathVariable("first-name") String firstName, @PathVariable("last-name") String lastName) {
-        return new Student(studentId, firstName, lastName);
+    public ResponseEntity<Student> studentPathVariable(@PathVariable("id") int studentId, @PathVariable("first-name") String firstName, @PathVariable("last-name") String lastName) {
+        Student student = new Student(studentId, firstName, lastName);
+        return ResponseEntity.ok(student);
     }
 
 //    Spring Boot REST API with Request Param - @RequestParam
 //    http://localhost:8080/students/query?id=1
     @GetMapping("/students/query")
-    public Student studentRequestParam(@RequestParam int id) {
-        return new Student(id, "new-user-firstName", "new-user-lastName");
+    public ResponseEntity<Student> studentRequestParam(@RequestParam int id) {
+        Student student = new Student(id, "new-user-firstName", "new-user-lastName");
+        return ResponseEntity.ok(student);
     }
 
 
     //    http://localhost:8080/students/queries?id=1&firstName=Sinchana&lastName=P Gudagi
     @GetMapping("/students/queries")
-    public Student studentRequestParams(@RequestParam int id, @RequestParam String firstName, @RequestParam String lastName) {
-        return new Student(id, firstName, lastName);
+    public ResponseEntity<Student> studentRequestParams(@RequestParam int id, @RequestParam String firstName, @RequestParam String lastName) {
+        Student student = new Student(id, firstName, lastName);
+        return ResponseEntity.ok(student);
     }
 
 //    Spring Boot POST REST API - @PostMapping and @RequestBody
     @PostMapping("/student/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Student createStudent(@RequestBody Student student) {
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         System.out.println(student.getId());
         System.out.println(student.getFirstName());
         System.out.println(student.getLastName());
-        return student;
+        return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
 //     Spring Boot PUT REST API - @PutMapping and @RequestBody
     @PutMapping("/student/{id}/update")
-    public Student updateStudent(@PathVariable int id ,@RequestBody Student student) {
+    public ResponseEntity<Student> updateStudent(@PathVariable int id ,@RequestBody Student student) {
         System.out.println(student.getFirstName());
         System.out.println(student.getLastName());
-        return student;
+        return ResponseEntity.ok(student);
     }
 
 //     Spring Boot DELETE REST API - @DeleteMapping
     @DeleteMapping("/student/{id}/delete")
-    public String deleteStudent(@PathVariable int id) {
-        return "Deleted student id - " + id;
+    public ResponseEntity<String> deleteStudent(@PathVariable int id) {
+        return ResponseEntity.ok("Deleted student id - " + id);
     }
 }
 
